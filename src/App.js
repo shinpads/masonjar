@@ -130,7 +130,7 @@ class App extends Component {
                 </ListItemAvatar>
                 <ListItemText
                   primary={<div className={classes.gameTitle}>War Wind</div>}
-                  secondary="Escape puzzle"
+                  secondary="Multiplayer combat game"
                 />
               </ListItem>
               <ListItem button>
@@ -139,7 +139,7 @@ class App extends Component {
                 </ListItemAvatar>
                 <ListItemText
                   primary={<div className={classes.gameTitle}>The Exiled One</div>}
-                  secondary="Escape puzzle"
+                  secondary="Platformer puzzle game"
                 />
               </ListItem>
             </List>
