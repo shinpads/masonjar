@@ -8,6 +8,7 @@ import GameDetails from './components/GameDetails';
 import GameUpdates from './components/GameUpdates';
 import GameReviews from './components/GameReviews';
 import GameStats from './components/GameStats';
+import api from './api';
 
 const sections = ['Details', 'Updates', 'Reviews', 'Stats'];
 const content = [GameDetails, GameUpdates, GameReviews, GameStats];
@@ -33,19 +34,26 @@ class Game extends Component {
               </div>
             </div>
             <div>
-              <Button size="large" variant="contained" color="primary">
-                <div style={{ marginRight: '0.5rem' }}>Play</div>
-                <PlayCircleOutlineIcon />
-              </Button>
               <div
-                style={{
-                  marginTop: '0.5rem',
-                  fontSize: '12px',
-                  textAlign: 'center'
+              style={{
+                marginBottom: '0.5rem',
+                fontSize: '12px',
+                textAlign: 'right'
+              }}
+              >
+              0 hours played
+              </div>
+              <Button
+                size="large"
+                variant="contained"
+                color="primary"
+                onClick={() => {
+                  console.log(window.localStorage);
+                  api.downloadGame(game, '');
                 }}
               >
-                0 downloads
-              </div>
+                <div style={{ marginRight: '0.5rem', marginLeft: '0.5rem' }}>Play</div>
+              </Button>
             </div>
           </div>
         </Paper>

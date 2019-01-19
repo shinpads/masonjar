@@ -1,4 +1,6 @@
 const electron = require('electron');
+const fetch = require('node-fetch');
+const fs = require('fs');
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 
@@ -16,8 +18,11 @@ function createWindow() {
     minHeight: 600,
     toolbar: false,
     icon: path.join(__dirname, 'public/masonlogo.png'),
+    'web-preferences': {
+      'web-security': false
+    },
   });
-  mainWindow.setMenuBarVisibility(false);
+  // mainWindow.setMenuBarVisibility(false);
   mainWindow.loadURL(isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`);
   mainWindow.on('closed', () => mainWindow = null);
 }
