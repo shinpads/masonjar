@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './App.css';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
@@ -53,14 +52,24 @@ const styles = theme => ({
 });
 
 class App extends Component {
-  componentDidMount() {
-    api.getGames();
+  constructor(props) {
+    super(props);
+    this.state = {
+      games: [],
+      selectedGame: null,
+      selectedGameIndex: -1,
+    };
+  }
+  async componentDidMount() {
+    const games = await api.getGames();
+    games.sort((a, b) => (b.id - a.id));
+    this.setState({ games });
   }
   render() {
     const { classes } = this.props;
     return (
       <div className="App">
-        <AppBar position="static">
+        <AppBar position="static" color="secondary">
           <Toolbar>
             <Typography variant="h6" color="inherit" style={{ flexGrow: 1, textAlign: 'left', marginLeft: '300px' }}>
               Mason Jar Launcher
@@ -88,63 +97,33 @@ class App extends Component {
             </List>
             <Divider />
             <List>
-              <ListItem button>
-                <ListItemAvatar>
-                  <Avatar alt="" src={LogoIcon}/>
-                </ListItemAvatar>
-                <ListItemText
-                  primary={<div className={classes.gameTitle}>Island 714</div>}
-                  secondary="Top down shooter game"
-                />
-              </ListItem>
-              <ListItem button>
-                <ListItemAvatar>
-                  <Avatar alt="" src={LogoIcon}/>
-                </ListItemAvatar>
-                <ListItemText
-                  primary={<div className={classes.gameTitle}>Box</div>}
-                  secondary="Escape puzzle"
-                />
-              </ListItem>
-              <ListItem button>
-                <ListItemAvatar>
-                  <Avatar alt="" src={LogoIcon}/>
-                </ListItemAvatar>
-                <ListItemText
-                  primary={<div className={classes.gameTitle}>Pink</div>}
-                  secondary="Escape puzzle"
-                />
-              </ListItem>
-              <ListItem button>
-                <ListItemAvatar>
-                  <Avatar alt="" src={LogoIcon}/>
-                </ListItemAvatar>
-                <ListItemText
-                  primary={<div className={classes.gameTitle}>Frontier</div>}
-                  secondary="Multiplayer FPS"
-                />
-              </ListItem>
-              <ListItem button>
-                <ListItemAvatar>
-                  <Avatar alt="" src={LogoIcon}/>
-                </ListItemAvatar>
-                <ListItemText
-                  primary={<div className={classes.gameTitle}>War Wind</div>}
-                  secondary="Multiplayer combat game"
-                />
-              </ListItem>
-              <ListItem button>
-                <ListItemAvatar>
-                  <Avatar alt="" src={LogoIcon}/>
-                </ListItemAvatar>
-                <ListItemText
-                  primary={<div className={classes.gameTitle}>The Exiled One</div>}
-                  secondary="Platformer puzzle game"
-                />
-              </ListItem>
+              {this.state.games.map((game) => {
+                return (
+                  <ListItem
+                    button
+                    selected={this.state.selectedGameIndex === game.id}
+                    onClick={() => this.setState({ selectedGameIndex: game.id, selectedGame: game })}
+                  >
+                    <ListItemAvatar>
+                    <Avatar alt="" src={LogoIcon}/>
+                    </ListItemAvatar>
+                    <ListItemText
+                    primary={<div className={classes.gameTitle}>{game.title}</div>}
+                    secondary={game.description}
+                    />
+                  </ListItem>
+                );
+              })}
             </List>
           </div>
         </Drawer>
+        <div id="content-container">
+          {this.state.selectedGame &&
+            <Game game={this.state.selectedGame} />
+          }
+        </div>
+
+
       </div>
     );
   }
