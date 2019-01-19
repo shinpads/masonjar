@@ -27,6 +27,9 @@ body {
 
 .game-frame {
   padding: 1rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-height: calc(100% - 6rem);
 }
 
 .game-card {
@@ -69,4 +72,24 @@ body {
   grid-template-columns: auto;
   align-items: center;
   justify-content: flex-start;
+}
+
+#tab-content {
+  margin-top: 1rem;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #8f8f8f;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2e2e2e;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #222222;
 }

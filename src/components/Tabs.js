@@ -40,7 +40,7 @@ class Tabs extends Component {
           <div style={{ flexGrow: 1, borderBottom: '1px solid white', height: '34px' }} />
         </div>
         <div id="tab-content">
-
+          {content[this.state.selectedTab]}
         </div>
       </div>
     );

@@ -15,7 +15,9 @@ const content = [GameDetails, GameUpdates, GameReviews, GameStats];
 class Game extends Component {
   constructor(props) {
     super(props);
-
+    this.state = {
+      tabContent: content.map((X) => <X game={props.game} />),
+    };
   }
   render() {
     const { game } = this.props;
@@ -48,7 +50,7 @@ class Game extends Component {
           </div>
         </Paper>
         <Paper className="game-card" style={{ marginTop: '1rem' }}>
-          <Tabs sections={sections} content={content} />
+          <Tabs sections={sections} content={this.state.tabContent} />
         </Paper>
       </div>
     );
