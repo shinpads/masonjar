@@ -43,10 +43,30 @@ body {
 .game-title {
   font-size: 32px;
   font-weight: 500;
-  color: white;  
+  color: white;
 }
 
 .flexbox {
   display: flex;
   align-items: center;
+}
+
+.tab-section {
+  border: 1px solid white;
+  border-left: 0px;
+}
+
+.tab-section.first {
+  border-left: 1px solid white;
+}
+
+.tab-section.selected {
+  border-bottom: 1px solid #00000000;
+}
+
+#tab-sections {
+  display: flex;
+  grid-template-columns: auto;
+  align-items: center;
+  justify-content: flex-start;
 }

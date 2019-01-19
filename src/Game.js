@@ -3,8 +3,20 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import MasonIcon from './masonlogo.png';
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
+import Tabs from './components/Tabs';
+import GameDetails from './components/GameDetails';
+import GameUpdates from './components/GameUpdates';
+import GameReviews from './components/GameReviews';
+import GameStats from './components/GameStats';
+
+const sections = ['Details', 'Updates', 'Reviews', 'Stats'];
+const content = [GameDetails, GameUpdates, GameReviews, GameStats];
 
 class Game extends Component {
+  constructor(props) {
+    super(props);
+
+  }
   render() {
     const { game } = this.props;
     return(
@@ -36,7 +48,7 @@ class Game extends Component {
           </div>
         </Paper>
         <Paper className="game-card" style={{ marginTop: '1rem' }}>
-
+          <Tabs sections={sections} content={content} />
         </Paper>
       </div>
     );

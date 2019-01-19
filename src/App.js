@@ -119,7 +119,7 @@ class App extends Component {
         </Drawer>
         <div id="content-container">
           {this.state.selectedGame &&
-            <Game game={this.state.selectedGame} />
+            <Game key={this.state.selectedGame.id} game={this.state.selectedGame} />
           }
         </div>
 
