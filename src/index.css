@@ -93,3 +93,18 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #222222;
 }
+
+#download-progress-paper {
+  position: absolute;
+  left: calc(300px + 1rem);
+  right: 1rem;
+  bottom: 1rem;
+  padding: 1rem;
+  background-color: #1c1c1c;
+}
+
+#progress-loader-bar {
+  height: 6px;
+  background-color: #00b1d6;
+  transition: width 500ms ease;
+}

@@ -21,7 +21,7 @@ class Game extends Component {
     };
   }
   render() {
-    const { game } = this.props;
+    const { game, downloadGame } = this.props;
     return(
       <div className="game-frame">
         <Paper className="game-card">
@@ -47,10 +47,7 @@ class Game extends Component {
                 size="large"
                 variant="contained"
                 color="primary"
-                onClick={() => {
-                  console.log(window.localStorage);
-                  api.downloadGame(game, '');
-                }}
+                onClick={() => downloadGame(game)}
               >
                 <div style={{ marginRight: '0.5rem', marginLeft: '0.5rem' }}>Play</div>
               </Button>

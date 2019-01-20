@@ -29,19 +29,43 @@ const api = {
      return [];
    }
  },
- downloadGame: (game, dest) => {
+ login: async (email, password) => {
+   const data = await axio.post('/api/login', { email, password });
+   if (data.data.success) {
+     window.localStorage.setItem('user', JSON.stringify(data.data.user));
+   }
+   return data.data.success;
+ },
+ register: async (email, username, password) => {
+   const data = await axio.post('/api/register', { email, username, password });
+   return data.data.success;
+ },
+ logout: async () => {
+   await axio.post('/api/logout');
+   window.localStorage.setItem('user', '');
+ },
+ downloadGame: (game, dest, progress) => {
    const { id, title } = game;
-   fetch(`http://localhost:3030/api/game/download/${id}`)
-    .then(res => {
-      console.log('size', res.headers.get('content-length'), res.headers.get('content-type'), res.headers.get('content-disposition'));
-      const destStream = fs.createWriteStream(`./${title}.zip`);
-      res.body
-        .on('end', () => console.log('done'))
-        .pipe(destStream);
-      res.body.on('data', chunk => console.log(chunk.length));
-
-    });
-
+   return new Promise((resolve, reject) => {
+     fetch(`http://localhost:3030/api/game/download/${id}`,
+       { method: 'get', headers: { sid: window.localStorage.getItem('user_sid')}})
+       .then(res => {
+         resolve({
+           fileSize: res.headers.get('content-length'),
+         })
+         let total = res.headers.get('content-length');
+         let current = 0;
+         console.log('size', res.headers.get('content-length'), res.headers.get('content-type'), res.headers.get('content-disposition'));
+         const destStream = fs.createWriteStream(`./${title}.zip`);
+         res.body
+         .on('end', () => console.log('done'))
+         .pipe(destStream);
+         res.body.on('data', chunk => {
+           current += chunk.length;
+           progress(current / total);
+         });
+       });
+   });
   },
 }
 
@@ -51,7 +75,7 @@ function generateSID() {
   const length = 20;
   let sid = '';
   for (let i = 0; i < length; i++) {
-      sid += values[Math.floor(Math.random() * values.length - 1)];
+      sid += values[Math.floor(Math.random() * (values.length - 1))];
   }
   return sid;
 }

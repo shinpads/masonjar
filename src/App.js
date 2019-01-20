@@ -12,7 +12,9 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import List from '@material-ui/core/List';
 import Drawer from '@material-ui/core/Drawer';
 import Avatar from '@material-ui/core/Avatar';
+import LoginRegisterModal from './components/LoginRegisterModal';
 import { withStyles } from '@material-ui/core/styles';
+import DownloadProgress from './components/DownloadProgress';
 
 import HomeIcon from '@material-ui/icons/Home';
 
@@ -21,6 +23,7 @@ import MasonIcon from './masonlogo.png';
 
 import api from './api';
 import Game from './Game';
+import User from './components/User';
 
 const drawerWidth = 300;
 
@@ -58,23 +61,62 @@ class App extends Component {
       games: [],
       selectedGame: null,
       selectedGameIndex: -1,
+      loginRegisterModalOpen: false,
+      inDownload: false,
+      downloadProgress: 0,
     };
   }
+
   async componentDidMount() {
     const games = await api.getGames();
     games.sort((a, b) => (b.id - a.id));
     this.setState({ games });
   }
+
+  downloadGame = async (game) => {
+    this.setState({ downloadProgress: 0, inDownload: true });
+    const details = await api.downloadGame(
+      game,
+      '',
+      (progress) => {
+        if (progress - this.state.downloadProgress > 0.01) {
+          this.setState({ downloadProgress: progress });
+        }
+      },
+      () => {
+        this.setState({ downloadProgress: 1, inDownload: false });
+      }
+    );
+  }
+
   render() {
     const { classes } = this.props;
+    let user = null;
+    if (window.localStorage.getItem('user')) {
+      user = JSON.parse(window.localStorage.getItem('user'));
+    }
     return (
       <div className="App">
+        {this.state.inDownload && <DownloadProgress progress={this.state.downloadProgress} /> }
         <AppBar position="static" color="secondary">
           <Toolbar>
             <Typography variant="h6" color="inherit" style={{ flexGrow: 1, textAlign: 'left', marginLeft: '300px' }}>
               Mason Jar Launcher
             </Typography>
-            <Button color="inherit">Login</Button>
+            {!!user
+              ? (
+                <User user={user} loggedOut={() => this.forceUpdate()} />
+              )
+              : (
+              <Button
+                color="inherit"
+                variant="contained"
+                onClick={() => this.setState({ loginRegisterModalOpen: true })}
+              >
+                <div style={{ color: 'black' }}>Login / Register</div>
+              </Button>
+            )
+          }
           </Toolbar>
         </AppBar>
         <Drawer
@@ -117,9 +159,17 @@ class App extends Component {
             </List>
           </div>
         </Drawer>
+        <LoginRegisterModal
+          open={this.state.loginRegisterModalOpen}
+          onClose={() => this.setState({ loginRegisterModalOpen: false })}
+        />
         <div id="content-container">
           {this.state.selectedGame &&
-            <Game key={this.state.selectedGame.id} game={this.state.selectedGame} />
+            <Game
+              key={this.state.selectedGame.id}
+              game={this.state.selectedGame}
+              downloadGame={this.downloadGame}
+            />
           }
         </div>
 
