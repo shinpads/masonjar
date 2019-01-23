@@ -24,7 +24,7 @@ class Tabs extends Component {
     return (
       <div>
         <div id="tab-sections">
-          <div style={{ flexGrow: 0.1, borderBottom: '1px solid white', height: '35px' }} />
+          <div style={{ flexGrow: 0.1, borderBottom: '1px solid white', height: '35px', position: 'relative', left: '1px' }} />
           {sections.map((section, index) => {
             return (
               <div className={'tab-section ' + (index === 0 ? 'first' : '') + (this.state.selectedTab === index ? ' selected' : '')}>
@@ -37,7 +37,7 @@ class Tabs extends Component {
               </div>
             );
           })}
-          <div style={{ flexGrow: 1, borderBottom: '1px solid white', height: '35px' }} />
+          <div style={{ flexGrow: 1, borderBottom: '1px solid white', height: '35px', position: 'relative', right: '1px' }} />
         </div>
         <div id="tab-content">
           {content[this.state.selectedTab]}

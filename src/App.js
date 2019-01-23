@@ -64,6 +64,7 @@ class App extends Component {
       loginRegisterModalOpen: false,
       inDownload: false,
       downloadProgress: 0,
+      gameDownloading: null,
     };
   }
 
@@ -74,17 +75,18 @@ class App extends Component {
   }
 
   downloadGame = async (game) => {
-    this.setState({ downloadProgress: 0, inDownload: true });
+    this.setState({ downloadProgress: 0, inDownload: true, gameDownloading: game });
     const details = await api.downloadGame(
       game,
-      '',
+      './downloads',
       (progress) => {
         if (progress - this.state.downloadProgress > 0.01) {
           this.setState({ downloadProgress: progress });
         }
       },
       () => {
-        this.setState({ downloadProgress: 1, inDownload: false });
+        this.setState({ downloadProgress: 1 });
+
       }
     );
   }
@@ -97,7 +99,7 @@ class App extends Component {
     }
     return (
       <div className="App">
-        {this.state.inDownload && <DownloadProgress progress={this.state.downloadProgress} /> }
+        {this.state.inDownload && <DownloadProgress progress={this.state.downloadProgress} game={this.state.gameDownloading} /> }
         <AppBar position="static" color="secondary">
           <Toolbar>
             <Typography variant="h6" color="inherit" style={{ flexGrow: 1, textAlign: 'left', marginLeft: '300px' }}>

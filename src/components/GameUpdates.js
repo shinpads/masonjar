@@ -5,7 +5,7 @@ class GameUpdates extends Component {
   render() {
     const { game } = this.props;
     return (
-      <div>
+      <div style={{ paddingLeft: '1rem', paddingRight: '1rem' }}>
         {game.updates.map((update) => {
           const date = new Date(update.date).toDateString().slice(4);
           return(

@@ -54,7 +54,7 @@ class Game extends Component {
             </div>
           </div>
         </Paper>
-        <Paper className="game-card" style={{ marginTop: '1rem' }}>
+        <Paper className="game-card" style={{ marginTop: '1rem', paddingLeft: '0', paddingRight: '0' }}>
           <Tabs sections={sections} content={this.state.tabContent} />
         </Paper>
       </div>

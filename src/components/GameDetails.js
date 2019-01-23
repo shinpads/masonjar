@@ -4,7 +4,7 @@ class GameDetails extends Component {
   render() {
     const { game } = this.props;
     return (
-      <div>
+      <div style={{ paddingLeft: '1rem', paddingRight: '1rem' }}>
         <img alt="" src=""/>
         {game.fullDescription || <i>No description provided.</i>}
       </div>
