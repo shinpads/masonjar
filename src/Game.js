@@ -27,7 +27,7 @@ class Game extends Component {
         <Paper className="game-card">
           <div className="flexbox">
             <div className="game-info">
-              <img src={MasonIcon} width={64} height={64} style={{ marginRight: '1rem' }}/>
+              <img src={game.imageId ? 'https://drive.google.com/uc?id=' + game.imageId : MasonIcon} width={64} height={64} style={{ marginRight: '1rem' }}/>
               <div>
                 <div className="game-title">{game.title}</div>
                 <div className="game-description">{game.description}</div>

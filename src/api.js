@@ -3,7 +3,7 @@ import axios from 'axios';
 const { remote } = window.require('electron');
 const fs = remote.require('fs');
 const fetch = remote.require('node-fetch');
-const extract = remoyr.require('extract-zip');
+const extract = remote.require('extract-zip');
 
 if (!window.localStorage.getItem('user_sid')) {
   window.localStorage.setItem('user_sid', generateSID());
@@ -45,7 +45,7 @@ const api = {
    await axio.post('/api/logout');
    window.localStorage.setItem('user', '');
  },
- downloadGame: (game, dest, progress, onComplete) => {
+ downloadGame: (game, dest, progress, onDownloadComplete, onComplete) => {
    const { id, title } = game;
    return new Promise((resolve, reject) => {
      fetch(`http://localhost:3030/api/game/download/${id}`,
@@ -59,7 +59,13 @@ const api = {
          console.log('size', res.headers.get('content-length'), res.headers.get('content-type'), res.headers.get('content-disposition'));
          const destStream = fs.createWriteStream(`${dest}/${title}.zip`);
          res.body
-         .on('end', () => onComplete())
+         .on('end', () => {
+           extract(`${dest}/${title}.zip`, { dir: dest + '/' + title }, (err) => {
+             if (err) console.warn(err);
+             onComplete();
+           });
+           onDownloadComplete();
+         })
          .pipe(destStream);
          res.body.on('data', chunk => {
            current += chunk.length;

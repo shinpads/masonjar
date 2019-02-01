@@ -15,7 +15,9 @@ import Avatar from '@material-ui/core/Avatar';
 import LoginRegisterModal from './components/LoginRegisterModal';
 import { withStyles } from '@material-ui/core/styles';
 import DownloadProgress from './components/DownloadProgress';
-
+import MasonJarHome from './components/MasonJarHome';
+import Settings from './components/Settings';
+import SettingsIcon from '@material-ui/icons/Settings';
 import HomeIcon from '@material-ui/icons/Home';
 
 import LogoIcon from './logo.svg';
@@ -60,7 +62,7 @@ class App extends Component {
     this.state = {
       games: [],
       selectedGame: null,
-      selectedGameIndex: -1,
+      selectedTab: 'home',
       loginRegisterModalOpen: false,
       inDownload: false,
       downloadProgress: 0,
@@ -87,6 +89,9 @@ class App extends Component {
       () => {
         this.setState({ downloadProgress: 1 });
 
+      },
+      () => {
+        this.setState({ inDownload: false, gameDownloading: null });
       }
     );
   }
@@ -132,11 +137,19 @@ class App extends Component {
           <div>
             <Divider />
             <List>
-              <ListItem button>
-                <ListItemAvatar>
-                  <Avatar alt="" src={MasonIcon}/>
-                </ListItemAvatar>
-                <ListItemText primary={<div>Mason Jar Studios</div>} />
+              <ListItem button selected={this.state.selectedTab === 'home'}>
+                <img src={MasonIcon} width={24}/>
+                <ListItemText
+                  onClick={() => this.setState({ selectedGame: null, selectedTab: 'home' })}
+                  primary={<div>Mason Jar Studios</div>}
+                />
+              </ListItem>
+              <ListItem button selected={this.state.selectedTab === 'settings'}>
+                <SettingsIcon />
+                <ListItemText
+                  onClick={() => this.setState({ selectedGame: null, selectedTab: 'settings' })}
+                  primary={<div>Settings</div>}
+                />
               </ListItem>
             </List>
             <Divider />
@@ -145,11 +158,11 @@ class App extends Component {
                 return (
                   <ListItem
                     button
-                    selected={this.state.selectedGameIndex === game.id}
-                    onClick={() => this.setState({ selectedGameIndex: game.id, selectedGame: game })}
+                    selected={this.state.selectedTab === game.id}
+                    onClick={() => this.setState({ selectedTab: game.id, selectedGame: game })}
                   >
                     <ListItemAvatar>
-                    <Avatar alt="" src={LogoIcon}/>
+                    <Avatar alt="" src={game.imageId ? 'https://drive.google.com/uc?id=' + game.imageId : MasonIcon}/>
                     </ListItemAvatar>
                     <ListItemText
                     primary={<div className={classes.gameTitle}>{game.title}</div>}
@@ -172,6 +185,12 @@ class App extends Component {
               game={this.state.selectedGame}
               downloadGame={this.downloadGame}
             />
+          }
+          {this.state.selectedTab === 'home' &&
+            <MasonJarHome />
+          }
+          {this.state.selectedTab === 'settings' &&
+            <Settings />
           }
         </div>
 

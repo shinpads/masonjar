@@ -55,18 +55,22 @@ body {
 }
 
 .tab-section {
-  border: 1px solid #00000000;
+  border: 0px solid #00000000;
   border-left: 0px;
   border-bottom: 1px solid #fff;
 }
 
 .tab-section.first {
-  border-left: 1px solid #00000000;
+  /* border-left: 1px solid #00000000; */
 }
 
 .tab-section.selected {
   border: 1px solid #fff;
   border-bottom: 1px solid #00000000;
+}
+
+.tab-section.selected > button > .tab-text {
+  color: #00b1d6;
 }
 
 #tab-sections {

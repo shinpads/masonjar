@@ -32,12 +32,12 @@ class Tabs extends Component {
                   className={classes.tabButton}
                   onClick={() => this.setState({ selectedTab: index })}
                 >
-                  {section}
+                  <div className="tab-text">{section}</div>
                 </ButtonBase>
               </div>
             );
           })}
-          <div style={{ flexGrow: 1, borderBottom: '1px solid white', height: '35px', position: 'relative', right: '1px' }} />
+          <div style={{ flexGrow: 1, borderBottom: '1px solid white', height: '34px', position: 'relative', right: '1px' }} />
         </div>
         <div id="tab-content">
           {content[this.state.selectedTab]}
