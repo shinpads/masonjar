@@ -23,14 +23,26 @@ class Settings extends Component {
             <div style={{ marginLeft: '0.2rem', textTransform: 'uppercase' }}>Settys</div>
           </div>
           <Divider style={{ marginTop: '1rem', marginBottom: '1rem' }}/>
-          <Button onClick={() => {
-            const path = dialog.showOpenDialog({
-              properties: ['openDirectory']
-            });
-            this.setState({ path });
-            window.localStorage.setItem('downloadPath', path);
-          }}>Folder</Button>
-          <div>{this.state.path}</div>
+          <div style={{ fontSize: '18px', textTransform: 'uppercase', marginBottom: '0.2rem' }}>Download Location</div>
+          <div className="flexbox" style={{ paddingLeft: '1rem' }}>
+            <div style={{ color: '#adadad', flexGrow: 1 }}>{this.state.path}</div>
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={() => {
+              const path = dialog.showOpenDialog({
+                properties: ['openDirectory']
+              });
+              if (path) {
+                this.setState({ path });
+              }
+              window.localStorage.setItem('downloadPath', path);
+            }}
+            >
+              Folder
+            </Button>
+          </div>
+          <Divider style={{ marginTop: '1rem', marginBottom: '1rem' }}/>
         </Paper>
       </div>
     )
