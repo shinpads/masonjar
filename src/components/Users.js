@@ -3,51 +3,40 @@ import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Divider from '@material-ui/core/Divider';
 import SettingsIcon from '@material-ui/icons/Settings';
-const { remote } = window.require('electron');
-const fs = remote.require('fs');
-const { dialog } = remote;
+import CustomSpinner from './CustomSpinner';
+import UserCard from './UserCard';
+import api from '../api';
 
 class Users extends Component {
   constructor(props) {
     super(props);
-    const path = window.localStorage.getItem('downloadPath') || '';
     this.state = {
-      path: path,
+      loading: true,
+      users: [],
     }
   }
+
+  async componentDidMount() {
+    const users = await api.getUsers();
+    this.setState({ loading: false, users });
+    console.log(users);
+  }
+
   render() {
+    if (this.state.loading) {
+      return (
+        <div style={{ padding: '1rem', height: '80vh', display: 'flex', alignItems: 'center' }}>
+          <CustomSpinner />
+        </div>
+      )
+    }
     return (
       <div style={{ padding: '1rem' }}>
-        <Paper style={{ padding: '1rem', marginBottom: '1rem' }}>
-          <div className="flexbox" style={{ fontSize: '22px', color: '#939393'}}>
-            <div style={{ marginLeft: '0.2rem', textTransform: 'uppercase' }}>Settys</div>
-          </div>
-          <Divider style={{ marginTop: '1rem', marginBottom: '1rem' }}/>
-          <div style={{ fontSize: '18px', textTransform: 'uppercase', marginBottom: '0.2rem' }}>Download Location</div>
-          <div className="flexbox" style={{ paddingLeft: '1rem' }}>
-            <div style={{ color: '#adadad', flexGrow: 1 }}>{this.state.path}</div>
-            <Button
-              variant="outlined"
-              color="primary"
-              onClick={() => {
-              let path = dialog.showOpenDialog({
-                properties: ['openDirectory']
-              });
-              if (path) {
-                path += '/masonjar';
-                if (!fs.existsSync(path )) {
-                  fs.mkdirSync(path);
-                }
-                this.setState({ path });
-                window.localStorage.setItem('downloadPath', path);
-              }
-            }}
-            >
-              Folder
-            </Button>
-          </div>
-          <Divider style={{ marginTop: '1rem', marginBottom: '1rem' }}/>
-        </Paper>
+        {this.state.users.map(user => {
+          return (
+            <UserCard user={user} />
+          )
+        })}
       </div>
     )
   }

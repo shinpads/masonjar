@@ -64,19 +64,19 @@ class Game extends Component {
                     disabled={!!this.props.gameDownloading}
                     size="large"
                     variant="contained"
-                    color="primary"
                     onClick={() => downloadGame(game)}
                   >
                     <div style={{ marginRight: '0.5rem', marginLeft: '0.5rem' }}>Update</div>
                   </Button>
                 )}
-                {!updateRequired && (
+                {anyVersionInstalled && (!updateRequired || !game.forceUpdate) && (
                   <Button
                     disabled={!!this.props.gameDownloading}
                     size="large"
                     variant="contained"
                     color="primary"
                     onClick={() => playGame(game)}
+                    style={{ marginLeft: '1rem' }}
                   >
                     <div style={{ marginRight: '0.5rem', marginLeft: '0.5rem' }}>Play</div>
                   </Button>

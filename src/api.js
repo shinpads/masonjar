@@ -78,6 +78,10 @@ const api = {
        });
    });
   },
+  getUsers: async () => {
+    const res = await axio.get('/api/user/all');
+    return res.data.users;
+  }
 }
 
 

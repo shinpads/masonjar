@@ -197,13 +197,15 @@ class App extends Component {
                   primary={<div>Settings</div>}
                 />
               </ListItem>
-              <ListItem button selected={this.state.selectedTab === 'users'}>
-                <PersonIcon />
-                <ListItemText
-                  onClick={() => this.setState({ selectedGame: null, selectedTab: 'users' })}
-                  primary={<div className="flexbox"><div style={{ flexGrow: 1 }}>Users</div><div style={{ color: '#7ab2be' }}>ADMIN</div></div>}
-                />
-              </ListItem>
+              {user && user.permissions && user.permissions.EDIT_USERS &&
+                <ListItem button selected={this.state.selectedTab === 'users'}>
+                  <PersonIcon />
+                  <ListItemText
+                    onClick={() => this.setState({ selectedGame: null, selectedTab: 'users' })}
+                    primary={<div className="flexbox"><div style={{ flexGrow: 1 }}>Users</div><div style={{ color: '#7ab2be' }}>ADMIN</div></div>}
+                  />
+                </ListItem>
+              }
             </List>
             <Divider />
             <List>

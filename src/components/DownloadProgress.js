@@ -28,7 +28,7 @@ class DownloadProgress extends Component {
     const { game } = this.props;
     return (
       <Paper id="download-progress-paper">
-      <div className="flexbox">
+      <div className="flexbox" style={{ marginBottom: '1rem' }}>
         <div style={{
           fontSize: '28px',
           flexGrow: 1,
