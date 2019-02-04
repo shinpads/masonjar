@@ -17,6 +17,7 @@ import { withStyles } from '@material-ui/core/styles';
 import DownloadProgress from './components/DownloadProgress';
 import MasonJarHome from './components/MasonJarHome';
 import Settings from './components/Settings';
+import Users from './components/Users';
 import SettingsIcon from '@material-ui/icons/Settings';
 import PersonIcon from '@material-ui/icons/Person';
 import HomeIcon from '@material-ui/icons/Home';
@@ -196,10 +197,10 @@ class App extends Component {
                   primary={<div>Settings</div>}
                 />
               </ListItem>
-              <ListItem button selected={this.state.selectedTab === 'settings'}>
+              <ListItem button selected={this.state.selectedTab === 'users'}>
                 <PersonIcon />
                 <ListItemText
-                  onClick={() => this.setState({ selectedGame: null, selectedTab: 'settings' })}
+                  onClick={() => this.setState({ selectedGame: null, selectedTab: 'users' })}
                   primary={<div className="flexbox"><div style={{ flexGrow: 1 }}>Users</div><div style={{ color: '#7ab2be' }}>ADMIN</div></div>}
                 />
               </ListItem>
@@ -249,6 +250,9 @@ class App extends Component {
           }
           {this.state.selectedTab === 'settings' &&
             <Settings />
+          }
+          {this.state.selectedTab === 'users' &&
+            <Users />
           }
         </div>
 

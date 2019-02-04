@@ -22,7 +22,7 @@ const axio = axios.create({
 const api = {
  getGames: async () => {
    try {
-     const data = await axio.get('/api/games');
+     const data = await axio.get('/api/game/all');
      console.log(data.data.games);
      return data.data.games;
    } catch (err) {
@@ -31,18 +31,18 @@ const api = {
    }
  },
  login: async (email, password) => {
-   const data = await axio.post('/api/login', { email, password });
+   const data = await axio.post('/api/user/login', { email, password });
    if (data.data.success) {
      window.localStorage.setItem('user', JSON.stringify(data.data.user));
    }
    return data.data.success;
  },
  register: async (email, username, password) => {
-   const data = await axio.post('/api/register', { email, username, password });
+   const data = await axio.post('/api/user/register', { email, username, password });
    return data.data.success;
  },
  logout: async () => {
-   await axio.post('/api/logout');
+   await axio.post('/api/user/logout');
    window.localStorage.setItem('user', '');
  },
  downloadGame: (game, dest, progress, onDownloadComplete, onComplete) => {
