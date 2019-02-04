@@ -46,7 +46,7 @@ const api = {
    window.localStorage.setItem('user', '');
  },
  downloadGame: (game, dest, progress, onDownloadComplete, onComplete) => {
-   const { id, title } = game;
+   const { _id: id, title } = game;
    return new Promise((resolve, reject) => {
      fetch(`http://localhost:3030/api/game/download/${id}`,
        { method: 'get', headers: { sid: window.localStorage.getItem('user_sid')}})
@@ -57,10 +57,14 @@ const api = {
          let total = res.headers.get('content-length');
          let current = 0;
          console.log('size', res.headers.get('content-length'), res.headers.get('content-type'), res.headers.get('content-disposition'));
-         const destStream = fs.createWriteStream(`${dest}/${title}.zip`);
+         let path = window.localStorage.getItem('downloadPath') + '/' + title;
+         if (!fs.existsSync(path )) {
+           fs.mkdirSync(path);
+         }
+         const destStream = fs.createWriteStream(`${path}/${title}.zip`);
          res.body
          .on('end', () => {
-           extract(`${dest}/${title}.zip`, { dir: dest + '/' + title }, (err) => {
+           extract(`${path}/${title}.zip`, { dir: path }, (err) => {
              if (err) console.warn(err);
              onComplete();
            });

@@ -26,7 +26,6 @@ class DownloadProgress extends Component {
   render() {
     const { progress } = this.state;
     const { game } = this.props;
-    console.log('progress', progress);
     return (
       <Paper id="download-progress-paper">
       <div className="flexbox">

@@ -17,7 +17,7 @@ function createWindow() {
     minWidth: 1000,
     minHeight: 600,
     toolbar: false,
-    icon: path.join(__dirname, 'public/masonlogo.png'),
+    icon: path.join(__dirname, 'logos/64x64.png'),
     'web-preferences': {
       'web-security': false
     },

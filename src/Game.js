@@ -21,7 +21,11 @@ class Game extends Component {
     };
   }
   render() {
-    const { game, downloadGame } = this.props;
+    const { game, downloadGame, downloads, playGame } = this.props;
+    const version = game.version;
+    const installedVersion = downloads[game.title];
+    const anyVersionInstalled = !!installedVersion;
+    const updateRequired = version !== installedVersion;
     return(
       <div className="game-frame">
         <Paper className="game-card">
@@ -43,14 +47,40 @@ class Game extends Component {
               >
               0 hours played
               </div>
-              <Button
-                size="large"
-                variant="contained"
-                color="primary"
-                onClick={() => downloadGame(game)}
-              >
-                <div style={{ marginRight: '0.5rem', marginLeft: '0.5rem' }}>Play</div>
-              </Button>
+              {!anyVersionInstalled &&
+                (
+                  <Button
+                    disabled={!!this.props.gameDownloading}
+                    size="large"
+                    variant="contained"
+                    color="primary"
+                    onClick={() => downloadGame(game)}
+                  >
+                    <div style={{ marginRight: '0.5rem', marginLeft: '0.5rem' }}>Install</div>
+                  </Button>
+                )}
+                {anyVersionInstalled && updateRequired && (
+                  <Button
+                    disabled={!!this.props.gameDownloading}
+                    size="large"
+                    variant="contained"
+                    color="primary"
+                    onClick={() => downloadGame(game)}
+                  >
+                    <div style={{ marginRight: '0.5rem', marginLeft: '0.5rem' }}>Update</div>
+                  </Button>
+                )}
+                {!updateRequired && (
+                  <Button
+                    disabled={!!this.props.gameDownloading}
+                    size="large"
+                    variant="contained"
+                    color="primary"
+                    onClick={() => playGame(game)}
+                  >
+                    <div style={{ marginRight: '0.5rem', marginLeft: '0.5rem' }}>Play</div>
+                  </Button>
+                )}
             </div>
           </div>
         </Paper>

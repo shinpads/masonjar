@@ -4,6 +4,7 @@ import Paper from '@material-ui/core/Paper';
 import Divider from '@material-ui/core/Divider';
 import SettingsIcon from '@material-ui/icons/Settings';
 const { remote } = window.require('electron');
+const fs = remote.require('fs');
 const { dialog } = remote;
 
 class Settings extends Component {
@@ -30,13 +31,17 @@ class Settings extends Component {
               variant="outlined"
               color="primary"
               onClick={() => {
-              const path = dialog.showOpenDialog({
+              let path = dialog.showOpenDialog({
                 properties: ['openDirectory']
               });
               if (path) {
+                path += '/masonjar';
+                if (!fs.existsSync(path )) {
+                  fs.mkdirSync(path);
+                }
                 this.setState({ path });
+                window.localStorage.setItem('downloadPath', path);
               }
-              window.localStorage.setItem('downloadPath', path);
             }}
             >
               Folder
