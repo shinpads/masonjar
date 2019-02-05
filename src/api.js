@@ -66,7 +66,10 @@ const api = {
          .on('end', () => {
            extract(`${path}/${title}.zip`, { dir: path }, (err) => {
              if (err) console.warn(err);
-             onComplete();
+             fs.unlink(`${path}/${title}.zip`, (err) => {
+               if (err) console.warn(err);
+               onComplete();
+             });
            });
            onDownloadComplete();
          })
