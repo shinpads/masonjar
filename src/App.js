@@ -85,6 +85,7 @@ class App extends Component {
   }
 
   async componentDidMount() {
+    await api.getUserFromSession();
     const games = await api.getGames();
     games.sort((a, b) => (b._id - a._id));
     this.setState({ games });

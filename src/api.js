@@ -84,6 +84,14 @@ const api = {
   getUsers: async () => {
     const res = await axio.get('/api/user/all');
     return res.data.users;
+  },
+  getUserFromSession: async () => {
+    const res = await axio.get('/api/user/from-session');
+    if (res.data.success) {
+      window.localStorage.setItem('user', JSON.stringify(res.data.user));
+    } else {
+      window.localStorage.setItem('user', '');
+    }
   }
 }
 
