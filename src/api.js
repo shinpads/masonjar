@@ -92,6 +92,10 @@ const api = {
     } else {
       window.localStorage.setItem('user', '');
     }
+  },
+  getPermissionsList: async () => {
+    const res = await axio.get('/api/permissions-list');
+    return res.data.permissionsList || {};
   }
 }
 
