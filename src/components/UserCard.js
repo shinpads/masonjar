@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
 import PersonIcon from '@material-ui/icons/Person';
 import Divider from '@material-ui/core/Divider';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import EmailIcon from '@material-ui/icons/Email';
 
 class UserCard extends Component {
   constructor(props) {
@@ -19,6 +21,7 @@ class UserCard extends Component {
     this.state = {
       permissions: permissionsCopy,
       changesMade: false,
+      editMode: false,
     };
   }
 
@@ -28,7 +31,7 @@ class UserCard extends Component {
     let changesMade = false;
     const savedPermissions = this.props.user.permissions || {};
     Object.keys(this.props.permissionsList).forEach(x => {
-      if (savedPermissions[x] !== permissions[x]) {
+      if (!!savedPermissions[x] !== !!permissions[x]) {
         console.log(x, savedPermissions[x], permissions[x]);
         changesMade = true;
       }
@@ -39,6 +42,7 @@ class UserCard extends Component {
 
   render() {
     const { user, permissionsList } = this.props;
+    const lastOnlineDate = new Date(user.lastOnline);
     return (
       <Paper className="user-card">
         <div className="flexbox" style={{
@@ -53,37 +57,60 @@ class UserCard extends Component {
             {user.username}
           </div>
           <div>
-            {new Date(user.lastOnline).toDateString()}
+            {lastOnlineDate.toDateString().slice(3) + ' ' + lastOnlineDate.getHours() + ':' + lastOnlineDate.getMinutes()}
           </div>
         </div>
         <Divider style={{ marginTop: '1rem', marginBottom: '1rem' }} />
-        <div>{user.email}</div>
+        <div className="flexbox">
+          <EmailIcon style={{ fontSize: '18px', marginRight: '0.5rem' }} />
+          {user.email}
+        </div>
         <Divider style={{ marginTop: '1rem', marginBottom: '1rem' }} />
+        {this.state.editMode &&
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+          }}>
+            {Object.keys(this.props.permissionsList).map(perm => {
+              return (
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                    color="primary"
+                    checked={this.state.permissions[perm]}
+                    onChange={() => {
+                      this.onCheckboxChange(perm);
+                    }}
+                    />
+                  }
+                  label={perm}
+                />
+              );
+            })}
+            <Divider style={{ marginTop: '1rem', marginBottom: '1rem' }} />
+          </div>
+        }
         <div style={{
           display: 'flex',
-          flexDirection: 'column',
+          justifyContent: 'flex-end',
         }}>
-          {Object.keys(this.props.permissionsList).map(perm => {
-            return (
-              <FormControlLabel
-                control={
-                  <Checkbox
-                  color="primary"
-                  checked={this.state.permissions[perm]}
-                  onChange={() => {
-                    this.onCheckboxChange(perm);
-                  }}
-                  />
-                }
-                label={perm}
-              />
-            );
-          })}
-        </div>
-        <div>
           {this.state.changesMade &&
-            <div>CHANGES</div>
+            <Button
+              variant="contained"
+              color="primary"
+            >
+              Save
+            </Button>
           }
+          <Button
+            variant="outlined"
+            style={{ marginLeft: '0.5rem' }}
+            onClick={() => {
+              this.setState({ editMode: !this.state.editMode });
+            }}
+          >
+            {this.state.editMode ? 'Cancel' : 'Edit'}
+          </Button>
         </div>
       </Paper>
     );
