@@ -24,8 +24,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
-import LogoIcon from './logo.svg';
-import MasonIcon from './masonlogo.png';
+import MasonIcon from './masonlogo.svg';
 
 import api from './api';
 import Game from './Game';
@@ -187,7 +186,7 @@ class App extends Component {
               <ListItem
                 button
                 selected={this.state.selectedTab === 'home'}
-                onClick={() => this.setState({ selectedGame: null, selectedTab: 'home' })}                
+                onClick={() => this.setState({ selectedGame: null, selectedTab: 'home' })}
               >
                 <img src={MasonIcon} width={24}/>
                 <ListItemText
