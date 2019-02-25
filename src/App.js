@@ -93,29 +93,33 @@ class App extends Component {
 
   downloadGame = async (game) => {
     this.setState({ downloadProgress: 0, inDownload: true, gameDownloading: game });
-    const details = await api.downloadGame(
-      game,
-      './downloads',
-      (progress) => {
-        // on progress
-        if (progress - this.state.downloadProgress > 0.01) {
-          this.setState({ downloadProgress: progress });
-        }
-      },
-      () => {
-        // download done
-        this.setState({ downloadProgress: 1 });
+    try {
+      const details = await api.downloadGame(
+        game,
+        './downloads',
+        (progress) => {
+          // on progress
+          if (progress - this.state.downloadProgress > 0.01) {
+            this.setState({ downloadProgress: progress });
+          }
+        },
+        () => {
+          // download done
+          this.setState({ downloadProgress: 1 });
 
-      },
-      () => {
-        // install done
-        const { downloads } = this.state;
-        this.setState({ inDownload: false, gameDownloading: null });
-        downloads[game.title] = game.version;
-        window.localStorage.setItem('downloads', JSON.stringify(downloads));
-        this.setState({ downloads });
-      }
-    );
+        },
+        () => {
+          // install done
+          const { downloads } = this.state;
+          this.setState({ inDownload: false, gameDownloading: null });
+          downloads[game.title] = game.version;
+          window.localStorage.setItem('downloads', JSON.stringify(downloads));
+          this.setState({ downloads });
+        }
+      );
+    } catch (err) {
+      console.log('NOT LOGGED IN');
+    }
   }
 
   playGame = async (game) => {
