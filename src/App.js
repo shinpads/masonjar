@@ -24,8 +24,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
-import LogoIcon from './logo.svg';
-import MasonIcon from './masonlogo.png';
+import MasonIcon from './masonlogo.svg';
 
 import api from './api';
 import Game from './Game';
@@ -188,25 +187,34 @@ class App extends Component {
           <div>
             <Divider />
             <List>
-              <ListItem button selected={this.state.selectedTab === 'home'}>
+              <ListItem
+                button
+                selected={this.state.selectedTab === 'home'}
+                onClick={() => this.setState({ selectedGame: null, selectedTab: 'home' })}
+              >
                 <img src={MasonIcon} width={24}/>
                 <ListItemText
-                  onClick={() => this.setState({ selectedGame: null, selectedTab: 'home' })}
                   primary={<div>Mason Jar Studios</div>}
                 />
               </ListItem>
-              <ListItem button selected={this.state.selectedTab === 'settings'}>
+              <ListItem
+                button
+                selected={this.state.selectedTab === 'settings'}
+                onClick={() => this.setState({ selectedGame: null, selectedTab: 'settings' })}
+              >
                 <SettingsIcon />
                 <ListItemText
-                  onClick={() => this.setState({ selectedGame: null, selectedTab: 'settings' })}
                   primary={<div>Settings</div>}
                 />
               </ListItem>
               {user && user.permissions && user.permissions.EDIT_USERS &&
-                <ListItem button selected={this.state.selectedTab === 'users'}>
+                <ListItem
+                  button
+                  selected={this.state.selectedTab === 'users'}
+                  onClick={() => this.setState({ selectedGame: null, selectedTab: 'users' })}
+                >
                   <PersonIcon />
                   <ListItemText
-                    onClick={() => this.setState({ selectedGame: null, selectedTab: 'users' })}
                     primary={<div className="flexbox"><div style={{ flexGrow: 1 }}>Users</div><div style={{ color: '#7ab2be' }}>ADMIN</div></div>}
                   />
                 </ListItem>

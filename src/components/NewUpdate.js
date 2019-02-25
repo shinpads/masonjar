@@ -31,6 +31,8 @@ class NewUpdate extends Component {
           label="Content"
           variant="outlined"
           fullWidth
+          multiline
+          rowsMin="4"
           style={{ marginBottom: '0.8rem' }}
           value={this.state.email}
           onChange={e => this.setState({ content: e.currentTarget.value })}

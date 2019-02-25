@@ -14,12 +14,14 @@ class Users extends Component {
       loading: true,
       users: [],
     }
+    this.permissionsList = {};
   }
 
   async componentDidMount() {
     const users = await api.getUsers();
+    const permissionsList = await api.getPermissionsList();
+    this.permissionsList = permissionsList;
     this.setState({ loading: false, users });
-    console.log(users);
   }
 
   render() {
@@ -34,7 +36,7 @@ class Users extends Component {
       <div style={{ padding: '1rem' }}>
         {this.state.users.map(user => {
           return (
-            <UserCard user={user} />
+            <UserCard permissionsList={this.permissionsList} user={user} />
           )
         })}
       </div>
