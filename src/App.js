@@ -125,10 +125,12 @@ class App extends Component {
     const path = window.localStorage.getItem('downloadPath') + '/' + game.title;
     fs.readdir(path, (err, items) => {
       items = items.filter(item => item.substring(item.length - 4, item.length) === '.exe');
-      console.log(items);
-      execFile(path + '/' + items[0], (err, data) => {
+      const child = execFile(path + '/' + items[0], (err, data) => {
         console.log(err, data);
       });
+      child.on('exit', () => {
+        console.log('closed the thing');
+      })
     });
   }
 
