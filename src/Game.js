@@ -21,7 +21,7 @@ class Game extends Component {
     };
   }
   render() {
-    const { game, downloadGame, downloads, playGame } = this.props;
+    const { game, downloadGame, downloads, playGame, loggedIn } = this.props;
     const version = game.version;
     const installedVersion = downloads[game.title];
     const anyVersionInstalled = !!installedVersion;
@@ -45,12 +45,13 @@ class Game extends Component {
                 textAlign: 'right'
               }}
               >
-              0 hours played
+              {!loggedIn && 'Log in to play'}
+              {!!loggedIn && '0 hours played'}
               </div>
               {!anyVersionInstalled &&
                 (
                   <Button
-                    disabled={!!this.props.gameDownloading}
+                    disabled={!!this.props.gameDownloading || !loggedIn}
                     size="large"
                     variant="contained"
                     color="primary"
@@ -61,7 +62,7 @@ class Game extends Component {
                 )}
                 {anyVersionInstalled && updateRequired && (
                   <Button
-                    disabled={!!this.props.gameDownloading}
+                    disabled={!!this.props.gameDownloading || !loggedIn}
                     size="large"
                     variant="contained"
                     onClick={() => downloadGame(game)}
@@ -71,7 +72,7 @@ class Game extends Component {
                 )}
                 {anyVersionInstalled && (!updateRequired || !game.forceUpdate) && (
                   <Button
-                    disabled={!!this.props.gameDownloading}
+                    disabled={!!this.props.gameDownloading || !loggedIn}
                     size="large"
                     variant="contained"
                     color="primary"

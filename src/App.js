@@ -81,6 +81,7 @@ class App extends Component {
       selectedMenuItem: null,
       downloads,
     };
+
   }
 
   async componentDidMount() {
@@ -114,6 +115,9 @@ class App extends Component {
           downloads[game.title] = game.version;
           window.localStorage.setItem('downloads', JSON.stringify(downloads));
           this.setState({ downloads });
+          let myNotification = new Notification('MasonJar Launcher', {
+            body: 'Download complete'
+          });
         }
       );
     } catch (err) {
@@ -260,6 +264,7 @@ class App extends Component {
               playGame={this.playGame}
               gameDownloading={this.state.gameDownloading}
               downloads={downloads}
+              loggedIn={!!user}
             />
           }
           {this.state.selectedTab === 'home' &&

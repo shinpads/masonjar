@@ -9,8 +9,10 @@ if (!window.localStorage.getItem('user_sid')) {
   window.localStorage.setItem('user_sid', generateSID());
 }
 
+const baseURL = 'http://35.203.65.201:3030'
+
 const axio = axios.create({
-  baseURL: 'http://localhost:3030',
+  baseURL,
   timeout: 5000,
   headers: {
     'Accept': 'application/json',
@@ -34,6 +36,7 @@ const api = {
    const data = await axio.post('/api/user/login', { email, password });
    if (data.data.success) {
      window.localStorage.setItem('user', JSON.stringify(data.data.user));
+     window.localStorage.setItem('user_sid', JSON.stringify(data.data.user._id));
    }
    return data.data.success;
  },
@@ -44,11 +47,12 @@ const api = {
  logout: async () => {
    await axio.post('/api/user/logout');
    window.localStorage.setItem('user', '');
+   window.localStorage.setItem('user_sid', '');
  },
  downloadGame: (game, dest, progress, onDownloadComplete, onComplete) => {
    const { _id: id, title } = game;
    return new Promise((resolve, reject) => {
-     fetch(`http://localhost:3030/api/game/download/${id}`,
+     fetch(`${baseURL}/api/game/download/${id}`,
        { method: 'get', headers: { sid: window.localStorage.getItem('user_sid')}})
        .then(res => {
          resolve({

@@ -17,7 +17,7 @@ class MasonJarHome extends Component {
             <div style={{ marginLeft: '0.2rem', textTransform: 'uppercase' }}>Mason Jar</div>
           </div>
           <Divider style={{ marginTop: '1rem', marginBottom: '1rem' }}/>
-          hey idk whats going to put here
+          hey
         </Paper>
       </div>
     )
