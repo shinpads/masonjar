@@ -9,7 +9,8 @@ if (!window.localStorage.getItem('user_sid')) {
   window.localStorage.setItem('user_sid', generateSID());
 }
 
-const baseURL = 'http://35.203.65.201:3030'
+const baseURL = 'http://127.0.0.1:3030';
+// const baseURL = 'http://35.203.65.201:3030';
 
 const axio = axios.create({
   baseURL,
@@ -100,6 +101,18 @@ const api = {
   getPermissionsList: async () => {
     const res = await axio.get('/api/permissions-list');
     return res.data.permissionsList || {};
+  },
+  getGameReviews: async (gameId) => {
+    const res = await axio.get(`/api/review/${gameId}`);
+    return res.data.reviews || [];
+  },
+  getGameReviewUser: async (gameId, userId) => {
+    const res = await axio.get(`/api/review/${gameId}/${userId}`);
+    return res.data.review;
+  },
+  postGameReview: async (gameId, userId, body) => {
+    const res = await axio.post(`/api/review/${gameId}/${userId}`, body);
+    return res.data.success;
   }
 }
 
